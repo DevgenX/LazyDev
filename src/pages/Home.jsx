@@ -130,15 +130,14 @@ const Home = () => {
   return (
     <Container>
       <div className="homepage">
-        <Col>
-          <title>Code Translator</title>
-          <meta
-            name="description"
-            content="Use AI to translate code from one language to another."
-          />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.ico" />
-        </Col>
+        <title>Code Translator</title>
+        <meta
+          name="description"
+          content="Use AI to translate code from one language to another."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+
         <Row>
           <div className="title font-bold">AI Code Translator</div>
           <div className="mt-6 text-center text-sm">
