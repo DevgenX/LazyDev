@@ -4,6 +4,7 @@ import ModelSelect from "../components/ModelSelect";
 import QueryBlock from "../components/QueryBlock";
 import LanguageSelect from "../components/LanguageSelect";
 import { useEffect, useState } from "react";
+import { Button, Container, Row, Col } from "react-bootstrap";
 
 const Home = () => {
   const [inputLanguage, setInputLanguage] = useState("JavaScript");
@@ -53,7 +54,7 @@ const Home = () => {
       apiKey,
     };
 
-    const response = await fetch("/api/translator", {
+    const response = await fetch("http://localhost:4999/api/translator", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -127,53 +128,45 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <div>
-        <title>Code Translator</title>
-        <meta
-          name="description"
-          content="Use AI to translate code from one language to another."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </div>
-      <div className="flex h-full min-h-screen flex-col items-center bg-[#0E1117] px-4 pb-20 text-neutral-200 sm:px-10">
-        <div className="mt-10 flex flex-col items-center justify-center sm:mt-20">
-          <div className="text-4xl font-bold">AI Code Translator</div>
-        </div>
+    <Container>
+      <div className="homepage">
+        <Col>
+          <title>Code Translator</title>
+          <meta
+            name="description"
+            content="Use AI to translate code from one language to another."
+          />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="icon" href="/favicon.ico" />
+        </Col>
+        <Row>
+          <div className="title font-bold">AI Code Translator</div>
+          <div className="mt-6 text-center text-sm">
+            <InputAPI apiKey={apiKey} onChange={handleApiKeyChange} />
+          </div>
 
-        <div className="mt-6 text-center text-sm" style={{ color: "black" }}>
-          <InputAPI apiKey={apiKey} onChange={handleApiKeyChange} />
-        </div>
+          <div className="my-2 text-center  text-xs">
+            {loading
+              ? "Translating..."
+              : hasTranslated
+              ? "Output copied to clipboard!"
+              : 'Enter some code and click "Translate"'}
+          </div>
 
-        <div
-          className="mt-2 flex items-center space-x-2"
-          style={{ color: "black" }}
-        >
-          <ModelSelect model={model} onChange={(value) => setModel(value)} />
+          <div className="models">
+            <ModelSelect model={model} onChange={(value) => setModel(value)} />
 
-          <button
-            className="w-[140px] cursor-pointer rounded-md bg-violet-500 px-4 py-2 font-bold hover:bg-violet-600 active:bg-violet-700"
-            onClick={() => handleTranslate()}
-            disabled={loading}
-            style={{ color: "white" }}
-          >
-            {loading ? "Translating..." : "Translate"}
-          </button>
-        </div>
+            <Button
+              className="w-[140px] cursor-pointer rounded-md px-4 py-2 font-bold"
+              onClick={() => handleTranslate()}
+              disabled={loading}
+            >
+              {loading ? "Translating..." : "Translate"}
+            </Button>
+          </div>
 
-        <div className="mt-2 text-center text-xs">
-          {loading
-            ? "Translating..."
-            : hasTranslated
-            ? "Output copied to clipboard!"
-            : 'Enter some code and click "Translate"'}
-        </div>
-
-        <div className="mt-6 flex w-full max-w-[1200px] flex-col justify-between sm:flex-row sm:space-x-4">
-          <div className="h-100 flex flex-col justify-center space-y-2 sm:w-2/4">
+          <Col>
             <div className="text-center text-xl font-bold">Input</div>
-
             <LanguageSelect
               language={inputLanguage}
               onChange={(value) => {
@@ -183,7 +176,6 @@ const Home = () => {
                 setOutputCode("");
               }}
             />
-
             {inputLanguage === "Natural Language" ? (
               <QueryBlock
                 text={inputCode}
@@ -203,10 +195,9 @@ const Home = () => {
                 }}
               />
             )}
-          </div>
-          <div className="mt-8 flex h-full flex-col justify-center space-y-2 sm:mt-0 sm:w-2/4">
+          </Col>
+          <Col>
             <div className="text-center text-xl font-bold">Output</div>
-
             <LanguageSelect
               language={outputLanguage}
               onChange={(value) => {
@@ -220,10 +211,10 @@ const Home = () => {
             ) : (
               <AnswerBox code={outputCode} />
             )}
-          </div>
-        </div>
+          </Col>
+        </Row>
       </div>
-    </>
+    </Container>
   );
 };
 

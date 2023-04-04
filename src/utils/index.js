@@ -1,9 +1,5 @@
 import endent from "endent";
-import {
-  createParser,
-  ParsedEvent,
-  ReconnectInterval,
-} from "eventsource-parser";
+import { createParser } from "eventsource-parser";
 
 const createPrompt = (inputLanguage, outputLanguage, inputCode) => {
   if (inputLanguage === "Natural Language") {

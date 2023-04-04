@@ -1,12 +1,9 @@
 import "./App.css";
-import Home from "./pages/Home";
+import Home from "./pages/Home.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
-  return (
-    <div className="App">
-      <Home />
-    </div>
-  );
+  return <Home />;
 };
 
 export default App;

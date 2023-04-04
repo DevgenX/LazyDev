@@ -8,7 +8,7 @@ const LanguageSelect = ({ language, onChange }) => {
       className="w-full rounded-md bg-[#1F2937] px-4 py-2 text-neutral-200"
       value={language}
       onChange={handleChange}
-      style={{ color: "black" }}
+      style={{ color: "white" }}
     >
       {languages
         .sort((a, b) => a.label.localeCompare(b.label))
