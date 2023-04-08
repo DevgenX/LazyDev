@@ -12,7 +12,9 @@ app.post("/api/translator", async (req, res) => {
     const { inputLanguage, outputLanguage, inputCode, model, apiKey } =
       req.body;
 
-    const stream = await OpenAIStream(
+    // console.log(req.body);
+
+    const response = await OpenAIStream(
       inputLanguage,
       outputLanguage,
       inputCode,
@@ -20,10 +22,32 @@ app.post("/api/translator", async (req, res) => {
       apiKey
     );
 
-    res.setHeader("Content-Type", "text/html");
-    stream.pipe(res);
+    let data = "";
+    const reader = response.body.getReader();
+
+    function readStream() {
+      reader
+        .read()
+        .then(({ done, value }) => {
+          if (done) {
+            console.log("Stream finished.");
+            res.status(200).send(data);
+            return;
+          }
+          console.log(`Received ${value.length} bytes of data.`);
+          // Process the received data as needed
+          data += new TextDecoder().decode(value);
+          readStream();
+        })
+        .catch((error) => {
+          console.error(`Error while reading stream: ${error}`);
+          res.status(500).send("Error");
+        });
+    }
+
+    readStream();
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).send("Error");
   }
 });
